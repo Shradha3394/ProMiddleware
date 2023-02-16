@@ -1,0 +1,10 @@
+*.cache
+Pro.Web.Api/obj/
+Pro.Web.Api/bin/
+Pro.Web.Api/.vs/
+Pro.Api.Service/obj/
+Pro.Api.Service/bin/
+Pro.Api.Repository/obj/
+Pro.Api.Repository/bin/
+Pro.Api.Model/obj/
+Pro.Api.Model/bin/
