@@ -8,7 +8,8 @@ public class PartnerRepository : IPartnerRepository
     {
         return new List<Partner>
         {
-            new() { PartnerId = 88, PartnerName = "NHS Pro", PrivateLabelSite = "" }
+            new() { PartnerId = 88, PartnerName = "NHS Pro", PrivateLabelSite = "" },
+            new() { PartnerId = 89, PartnerName = "prodemo", PrivateLabelSite = "prodemo" }
         };
     }
 }

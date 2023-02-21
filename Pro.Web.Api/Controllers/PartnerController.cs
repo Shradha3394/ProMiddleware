@@ -22,7 +22,7 @@ namespace Pro.Web.Api.Controllers
             var partners = _partnerService.GetPartnersTable();
             if (string.IsNullOrEmpty(privateSiteLabel))
                 return Ok(partners.FirstOrDefault());
-            var partner = partners.FirstOrDefault(p => p.PrivateLabelSite == privateSiteLabel);
+            var partner = partners.FirstOrDefault(p => p.PrivateLabelSite!.Equals(privateSiteLabel,StringComparison.CurrentCultureIgnoreCase));
             if (partner == null)
             {
                 return Unauthorized();
