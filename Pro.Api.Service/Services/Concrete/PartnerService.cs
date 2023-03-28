@@ -1,8 +1,9 @@
-﻿using Pro.Api.Model.Concrete;
+﻿using Pro.Api.Model;
+using Pro.Api.Model.Concrete;
 using Pro.Api.Repository.Abstract;
 using Pro.Api.Service.Services.Abstract;
-
 namespace Pro.Api.Service.Services.Concrete;
+
 public class PartnerService : IPartnerService
 {
     private readonly IPartnerRepository _partnerRepository;

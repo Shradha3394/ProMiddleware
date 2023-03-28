@@ -1,4 +1,4 @@
-﻿namespace Pro.Api.Model.Concrete;
+﻿namespace Pro.Api.Model;
 
 public class Partner
 {

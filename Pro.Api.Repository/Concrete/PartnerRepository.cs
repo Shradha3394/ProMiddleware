@@ -1,4 +1,4 @@
-﻿using Pro.Api.Model.Concrete;
+﻿using Pro.Api.Model;
 using Pro.Api.Repository.Abstract;
 
 namespace Pro.Api.Repository.Concrete;

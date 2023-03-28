@@ -27,6 +27,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IPartnerService, PartnerService>();
 builder.Services.AddTransient<IPartnerRepository, PartnerRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IUserService, UserService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

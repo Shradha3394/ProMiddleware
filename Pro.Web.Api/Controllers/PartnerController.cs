@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Pro.Api.Model.Concrete;
 using Pro.Api.Service.Services.Abstract;
 
 namespace Pro.Web.Api.Controllers

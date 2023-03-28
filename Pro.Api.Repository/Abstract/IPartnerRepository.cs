@@ -1,4 +1,4 @@
-﻿using Pro.Api.Model.Concrete;
+﻿using Pro.Api.Model;
 
 namespace Pro.Api.Repository.Abstract;
 public interface IPartnerRepository
