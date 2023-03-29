@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Pro.Api.Model.Concrete;
 using Pro.Api.Service.Services.Abstract;
 
 namespace Pro.Web.Api.Controllers
@@ -21,9 +22,9 @@ namespace Pro.Web.Api.Controllers
             var user = _userService.SignInByPassword(logonName, password, partnerId);
             if (user == null)
             {
-                return Unauthorized();
+                return Ok(new BaseResponse<User>(StatusCodes.Status404NotFound, "Email or password is incorrect"));
             }
-            return Ok(user);
+            return Ok(new BaseResponse<User>(StatusCodes.Status200OK, "Email or password is incorrect", user));
         }
     }
 }
