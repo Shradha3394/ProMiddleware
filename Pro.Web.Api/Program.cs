@@ -31,6 +31,8 @@ builder.Services.AddTransient<IApiService, ApiService>();
 builder.Services.AddTransient<ITypeaheadService, TypeaheadService>();
 
 builder.Services.AddTransient<IPartnerRepository, PartnerRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IUserService, UserService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
