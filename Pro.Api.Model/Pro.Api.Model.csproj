@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="ComponentSpace.Saml2" Version="4.10.0" />
+    <PackageReference Include="Bdx.Web.Api.Objects" Version="2.4.55" />
   </ItemGroup>
 
 </Project>

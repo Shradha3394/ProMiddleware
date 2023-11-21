@@ -12,6 +12,7 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pro.Api.Model", "..\Pro.Api.Model\Pro.Api.Model.csproj", "{138E1954-FC7A-4FC4-9399-37B623AF9999}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHS.PRO.MVC", "..\NHS.PRO.MVC\NHS.PRO.MVC.csproj", "{6EF78286-469E-46A0-857F-58EC014D0E02}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pro.Web.Api.Library", "..\Pro.Web.Api.Library\Pro.Web.Api.Library.csproj", "{B5394E78-1128-4176-8EBA-B54443AF60E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
