@@ -27,11 +27,10 @@ builder.Services.AddControllers().AddJsonOptions(jsonOptions =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IPartnerService, PartnerService>();
-builder.Services.AddTransient<ISsoService, SsoService>();
 builder.Services.AddTransient<IApiService, ApiService>();
 
 builder.Services.AddTransient<ITypeaheadService, TypeaheadService>();
-
+builder.Services.AddTransient<ISsoService, SsoService>();
 builder.Services.AddTransient<IPartnerRepository, PartnerRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IUserService, UserService>();
