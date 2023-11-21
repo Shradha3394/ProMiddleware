@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Bdx.Web.Api.Objects" Version="2.4.55" />
+  </ItemGroup>
+
 </Project>

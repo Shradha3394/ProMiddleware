@@ -7,13 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Bdx.Web.Api.Objects" Version="2.4.55" />
     <PackageReference Include="Nhs.Utility" Version="1.0.32" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Pro.Api.Model\Pro.Api.Model.csproj" />
-    <ProjectReference Include="..\Pro.Api.Repository\Pro.Api.Repository.csproj" />
-    <ProjectReference Include="..\Pro.Web.Api.Library\Pro.Web.Api.Library.csproj" />
   </ItemGroup>
 
 </Project>
