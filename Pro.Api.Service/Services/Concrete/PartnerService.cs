@@ -2,19 +2,21 @@
 using Pro.Api.Model.Concrete;
 using Pro.Api.Repository.Abstract;
 using Pro.Api.Service.Services.Abstract;
-namespace Pro.Api.Service.Services.Concrete;
-
-public class PartnerService : IPartnerService
+namespace Pro.Api.Service.Services.Concrete
 {
-    private readonly IPartnerRepository _partnerRepository;
-
-    public PartnerService(IPartnerRepository partnerRepository)
+    public class PartnerService : IPartnerService
     {
-        _partnerRepository = partnerRepository;
-    }
+        private readonly IPartnerRepository _partnerRepository;
 
-    public List<Partner> GetPartnersTable()
-    {
-       return _partnerRepository.GetPartnerTableByBrandPartner(88);
+        public PartnerService(IPartnerRepository partnerRepository)
+        {
+            _partnerRepository = partnerRepository;
+        }
+
+        public List<Partner> GetPartnersTable()
+        {
+            return _partnerRepository.GetPartnerTableByBrandPartner(88);
+        }
     }
 }
+

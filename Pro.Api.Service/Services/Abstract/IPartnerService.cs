@@ -1,9 +1,11 @@
 ﻿using Pro.Api.Model;
 using Pro.Api.Model.Concrete;
 
-namespace Pro.Api.Service.Services.Abstract;
-
-public interface IPartnerService
+namespace Pro.Api.Service.Services.Abstract
 {
-    public List<Partner> GetPartnersTable();
+    public interface IPartnerService
+    {
+        public List<Partner> GetPartnersTable();
+    }
 }
+

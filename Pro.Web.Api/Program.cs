@@ -2,7 +2,7 @@ using Pro.Api.Repository.Abstract;
 using Pro.Api.Repository.Concrete;
 using Pro.Api.Service.Services.Abstract;
 using Pro.Api.Service.Services.Concrete;
-
+using ComponentSpace.Saml2.Configuration;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,7 +16,8 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod()
             .AllowAnyHeader());
 });
-
+// Add SAML SSO services.
+builder.Services.AddSaml(builder.Configuration.GetSection("SAML"));
 
 builder.Services.AddControllers().AddJsonOptions(jsonOptions =>
 {
@@ -26,6 +27,7 @@ builder.Services.AddControllers().AddJsonOptions(jsonOptions =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IPartnerService, PartnerService>();
+builder.Services.AddTransient<ISsoService, SsoService>();
 builder.Services.AddTransient<IPartnerRepository, PartnerRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IUserService, UserService>();
@@ -40,8 +42,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 app.UseCors(corsPolicy);
 

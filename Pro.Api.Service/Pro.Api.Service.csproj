@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ComponentSpace.Saml2" Version="4.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Pro.Api.Model\Pro.Api.Model.csproj" />
     <ProjectReference Include="..\Pro.Api.Repository\Pro.Api.Repository.csproj" />
   </ItemGroup>

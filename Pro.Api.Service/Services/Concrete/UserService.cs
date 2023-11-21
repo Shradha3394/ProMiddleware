@@ -2,18 +2,20 @@
 using Pro.Api.Repository.Abstract;
 using Pro.Api.Service.Services.Abstract;
 
-namespace Pro.Api.Service.Services.Concrete;
-public class UserService : IUserService
+namespace Pro.Api.Service.Services.Concrete
 {
-    private readonly IUserRepository _userRepository;
-
-    public UserService(IUserRepository userRepository)
+    public class UserService : IUserService
     {
-        _userRepository = userRepository;
-    }
+        private readonly IUserRepository _userRepository;
 
-    public User? SignInByPassword(string logonName, string password, int partnerId)
-    {
-       return _userRepository.SignInByPassword(logonName, password, partnerId);
+        public UserService(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
+
+        public User? SignInByPassword(string logonName, string password, int partnerId)
+        {
+            return _userRepository.SignInByPassword(logonName, password, partnerId);
+        }
     }
 }
