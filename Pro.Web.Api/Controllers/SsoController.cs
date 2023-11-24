@@ -1,8 +1,16 @@
 using ComponentSpace.Saml2;
+using ComponentSpace.Saml2.Assertions;
 using ComponentSpace.Saml2.Exceptions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using Nhs.Utility.Common;
 using Pro.Api.Model.Concrete;
 using Pro.Api.Service.Services.Abstract;
+using Pro.Web.Api.Library.Constants.Enums;
+using Pro.Web.Api.Library.Helpers;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Pro.Web.Api.Controllers
 {
@@ -13,30 +21,24 @@ namespace Pro.Web.Api.Controllers
         private readonly ISsoService _ssoService;
         private readonly IPartnerService _partnerService;
         private readonly ISamlServiceProvider _samlServiceProvider;
-
-        public SsoController(ISsoService ssoService, IPartnerService partnerService, ISamlServiceProvider samlServiceProvider)
+        private readonly IConfiguration _configuration;
+        public SsoController(ISsoService ssoService, IPartnerService partnerService, ISamlServiceProvider samlServiceProvider, IConfiguration configuration)
         {
             _ssoService = ssoService;
             _partnerService = partnerService;
             _samlServiceProvider = samlServiceProvider;
+            _configuration = configuration;
         }
 
         [HttpGet]
         [Route("StartSso")]
         public async Task<IActionResult> InitiateSingleSignOn()
         {
-            
             var returnUrl = "https://www.newhomesourceprofessional.com/armls/SSO/AssertionConsumerService?binding=post";
             if (string.IsNullOrEmpty(returnUrl))
             {
                 returnUrl = "/";
             }
-
-            /*  if (!IsWhitelisted(returnUrl))
-              {
-                  return BadRequest();
-              }*/
-
             // To login automatically at the service provider, initiate single sign-on to the identity provider (SP-initiated SSO).            
             //   var partnerName = _configuration["PartnerName"];
             var partnerName = "https://auth.armls.com";
@@ -49,14 +51,32 @@ namespace Pro.Web.Api.Controllers
         public async Task<IActionResult> AssertionConsumerService()
         {
             string samlResponse = HttpContext.Request.Form["SAMLResponse"];
-            //var samlResponseObj = new ComponentSpace.Saml2.Respo
-            // Receive and process the SAML assertion contained in the SAML response.
-            // The SAML response is received either as part of IdP-initiated or SP-initiated SSO.
+
             try
             {
                 var ssoResult = await _samlServiceProvider.ReceiveSsoAsync();
                 Console.WriteLine(ssoResult);
-                var ssoAttributes = ssoResult.Attributes.Where(xSamlAttribute => xSamlAttribute.Name != null);
+                // Extract user information from SAML attributes
+                var user = ExtractUserProfileFromAttributes(ssoResult.Attributes);
+
+                // Generate JWT
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_configuration["JWT:Secret"]);
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
+                        // Add other claims as needed
+                    }),
+                    Expires = DateTime.UtcNow.AddHours(1), // Token expiration time
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+                };
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                var jwt = tokenHandler.WriteToken(token);
+
+                // Send the JWT in the API response
+                return Ok(new { Token = jwt, FirstName = user.FirstName, LastName = user.LastName, /* Add other user information */ });
             }
             catch (SamlProtocolException ex)
             {
@@ -64,26 +84,28 @@ namespace Pro.Web.Api.Controllers
                 // ex.Message, ex.InnerException, etc.
                 Console.WriteLine(ex.Message);
             }
-            
-
-            // Create and save a JWT as a cookie.
-          /*  var jwt = new JwtSecurityTokenHandler().WriteToken(CreateJwtSecurityToken(ssoResult));
-
-            Response.Cookies.Append(_configuration["JWT:CookieName"], jwt, _cookieOptions);
-
-            // Redirect to the specified URL.
-            if (!string.IsNullOrEmpty(ssoResult.RelayState))
-            {
-                if (!IsWhitelisted(ssoResult.RelayState))
-                {
-                    return BadRequest();
-                }
-
-                return Redirect(ssoResult.RelayState);
-            }*/
 
             return new EmptyResult();
         }
+
+        private User ExtractUserProfileFromAttributes(IEnumerable<SamlAttribute> attributes)
+        {
+            var userProfile = new User();
+
+            userProfile.FirstName = GetSamlAttributeValueByName(attributes, "FirstName");
+            userProfile.LastName = GetSamlAttributeValueByName(attributes, "LastName");
+            userProfile.Email = GetSamlAttributeValueByName(attributes, "Email");
+            // Add other attributes as needed
+
+            return userProfile;
+        }
+
+        private string GetSamlAttributeValueByName(IEnumerable<SamlAttribute> attributes, string attributeName)
+        {
+            var attribute = attributes.FirstOrDefault(x => x.Name == attributeName);
+            return attribute?.AttributeValues.FirstOrDefault()?.ToString() ?? string.Empty;
+        }
+
 
 
     }

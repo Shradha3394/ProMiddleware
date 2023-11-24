@@ -1,4 +1,5 @@
 ﻿using Nhs.Utility.Common;
+using Pro.Web.Api.Library.Constants.Enums;
 using System.Text.RegularExpressions;
 
 namespace Pro.Web.Api.Library.Helpers
@@ -94,6 +95,15 @@ namespace Pro.Web.Api.Library.Helpers
         public static string QuotedValue(this string text)
         {
             return "\"" + text + "\"";
+        }
+
+        public static SsoAttributes FromString(this string attribute)
+        {
+            if (Enum.TryParse<SsoAttributes>(attribute, true, out var result))
+            {
+                return result;
+            }
+            return default(SsoAttributes);
         }
     }
 }
