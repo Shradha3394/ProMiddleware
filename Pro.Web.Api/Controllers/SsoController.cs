@@ -2,6 +2,7 @@ using ComponentSpace.Saml2;
 using ComponentSpace.Saml2.Assertions;
 using ComponentSpace.Saml2.Exceptions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using Nhs.Utility.Common;
 using Pro.Api.Model.Concrete;
@@ -56,6 +57,7 @@ namespace Pro.Web.Api.Controllers
             {
                 var ssoResult = await _samlServiceProvider.ReceiveSsoAsync();
                 Console.WriteLine(ssoResult);
+
                 // Extract user information from SAML attributes
                 var user = ExtractUserProfileFromAttributes(ssoResult.Attributes);
 
@@ -92,9 +94,9 @@ namespace Pro.Web.Api.Controllers
         {
             var userProfile = new User();
 
-            userProfile.FirstName = GetSamlAttributeValueByName(attributes, "FirstName");
-            userProfile.LastName = GetSamlAttributeValueByName(attributes, "LastName");
-            userProfile.Email = GetSamlAttributeValueByName(attributes, "Email");
+            userProfile.FirstName = GetSamlAttributeValueByName(attributes, "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname");
+            userProfile.LastName = GetSamlAttributeValueByName(attributes, "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname");
+            userProfile.Email = GetSamlAttributeValueByName(attributes, "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress");
             // Add other attributes as needed
 
             return userProfile;
@@ -103,10 +105,23 @@ namespace Pro.Web.Api.Controllers
         private string GetSamlAttributeValueByName(IEnumerable<SamlAttribute> attributes, string attributeName)
         {
             var attribute = attributes.FirstOrDefault(x => x.Name == attributeName);
-            return attribute?.AttributeValues.FirstOrDefault()?.ToString() ?? string.Empty;
+
+            //// Check if the attribute exists and has values
+            if (attribute != null && attribute.AttributeValues != null && attribute.AttributeValues.Any())
+            {
+                return attribute.ToString();
+            }
+
+            return string.Empty;
         }
 
 
 
+
+
+
+
     }
+
 }
+
