@@ -1,5 +1,4 @@
-﻿
-namespace Pro.Web.Api.Library
+﻿namespace Pro.Web.Api.Library.Constants
 {
     public class WebApiMethods
     {

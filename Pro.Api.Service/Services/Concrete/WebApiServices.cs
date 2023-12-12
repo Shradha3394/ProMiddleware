@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using Nhs.Utility.Common;
 using Pro.Web.Api.Library.Constants.Enums;
 
-namespace Pro.Web.Api.Library.Proxy
+namespace Pro.Api.Service.Services.Concrete
 {
     public class WebApiServices
     {

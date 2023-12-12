@@ -2,7 +2,6 @@
 using System.Text;
 using Pro.Api.Model.Concrete;
 using Pro.Web.Api.Library.Helpers.WebApiServices;
-using Pro.Web.Api.Library.Proxy;
 
 namespace Pro.Api.Service.Services.Concrete
 {
