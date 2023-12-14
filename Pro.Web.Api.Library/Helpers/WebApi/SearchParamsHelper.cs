@@ -1,12 +1,11 @@
-﻿using Bdx.Web.Api.Objects;
-using Bdx.Web.Api.Objects.Constants;
-using MongoDB.Bson;
-using Nhs.Utility.Common;
+﻿using Nhs.Utility.Common;
 using Pro.Api.Model.Concrete;
 using Pro.Web.Api.Library.Business;
 using Pro.Web.Api.Library.Business.Utils;
+using Pro.Web.Api.Library.Constants;
 using Pro.Web.Api.Library.Constants.Enums;
 using Pro.Web.Api.Library.Helpers.Utility;
+using SortBy = Pro.Web.Api.Library.Constants.Enums.SortBy;
 
 namespace Pro.Web.Api.Library.Helpers.WebApiServices
 {
@@ -110,7 +109,7 @@ namespace Pro.Web.Api.Library.Helpers.WebApiServices
                     !string.IsNullOrEmpty(searchParams.PostalCode))
                 {
                     @params.Add(ApiUrlConstV2.SortFirstBy, searchParams.SortFirstBy);
-                    @params.Add(ApiUrlConstV2.SortSecondBy, SortSecondBy.Random);
+                    @params.Add(ApiUrlConstV2.SortSecondBy, Constants.Enums.SortSecondBy.Random);
                 }
             }
             else
@@ -366,225 +365,6 @@ namespace Pro.Web.Api.Library.Helpers.WebApiServices
         public static SearchParams ToClone(this SearchParams searchParams)
         {
             return searchParams.ToJson().ToFromJson<SearchParams>();
-        }
-
-        public static ApiSearchParams ToPostApiParameters(this SearchParams searchParams)
-        {
-            var @params = new ApiSearchParams
-            {
-                PartnerId = searchParams.PartnerId,
-                ExcludeBasicListings = searchParams.ExcludeBasicListings,
-                BuilderId = searchParams.BuilderId,
-                Bathrooms = searchParams.Bathrooms,
-                Bedrooms = searchParams.Bedrooms,
-                Garages = searchParams.Garages,
-                Pool = searchParams.Pool,
-                Green = searchParams.Green,
-                NatureAreas = searchParams.NatureAreas,
-                GolfCourse = searchParams.GolfCourse,
-                Waterfront = searchParams.Waterfront,
-                Parks = searchParams.Parks,
-                Views = searchParams.Views,
-                Sports = searchParams.Sports,
-                Adult = searchParams.Adult,
-                Gated = searchParams.Gated,
-                PriceLow = searchParams.PriceLow,
-                PriceHigh = searchParams.PriceHigh,
-                CommunityStatus = searchParams.CommunityStatus,
-                SchoolDistrictIds = searchParams.SchoolDistrictIds,
-                HotDeals = searchParams.HotDeals,
-                //SingleFamily = searchParams.SingleFamily,
-                //MultiFamily = searchParams.MultiFamily,
-                Stories = searchParams.Stories,
-                NumStory = searchParams.NumStory,
-                MasterBedLocation = searchParams.MasterBedLocation,
-                HasRVGarage = searchParams.HasRVGarage,
-                CommId = searchParams.CommId,
-                ParentCommId = searchParams.ParentCommId,
-                PlanId = searchParams.PlanId,
-                SpecId = searchParams.SpecId,
-                BrandId = searchParams.BrandId,
-                SqFtLow = searchParams.SqFtLow,
-                SqFtHigh = searchParams.SqFtHigh,
-                Qmi = searchParams.Qmi,
-                CommName = searchParams.CommName,
-                LivingAreas = searchParams.LivingAreas,
-                ExcludeBasiCommunities = searchParams.ExcludeBasiCommunities,
-                HomeStatus = searchParams.HomeStatus,
-                CountsOnly = searchParams.CountsOnly,
-                PageSize = searchParams.PageSize,
-                PageNumber = searchParams.PageNumber,
-                BasicListingToTheEnd = searchParams.BasicListingToTheEnd,
-                ExcludeCountsAndFacets = searchParams.ExcludeCountsAndFacets,
-                ExtHomeDetail = searchParams.ExtHomeDetail,
-                ExtCommDetail = searchParams.ExtCommDetail,
-                ExtMapPoints = searchParams.ExtMapPoints,
-                SortFacets = searchParams.SortFacets,
-                ExcludeImages = searchParams.ExcludeImages,
-                ExcludeVideos = searchParams.ExcludeVideos,
-                ExcludeSummary = searchParams.ExcludeSummary,
-                ExcludeCustomAmenities = searchParams.ExcludeCustomAmenities,
-                ExcludeDescription = searchParams.ExcludeDescription,
-                ExcludeInteractiveMedia = searchParams.ExcludeInteractiveMedia,
-                ExcludeFloorPlans = searchParams.ExcludeFloorPlans,
-                ExlucedeFloorPlanViewerUrl = searchParams.ExlucedeFloorPlanViewerUrl,
-                ExcludeEnvisionUrl = searchParams.ExcludeEnvisionUrl,
-                ExcludeTollFreeNumber = searchParams.ExcludeTollFreeNumber,
-                ExcludeSchoolDistricts = searchParams.ExcludeSchoolDistricts,
-                ExcludeCommunityMap = searchParams.ExcludeCommunityMap,
-                ExcludeHomeOptions = searchParams.ExcludeHomeOptions,
-                ExcludeBuilderMap = searchParams.ExcludeBuilderMap,
-                ExcludeVideoTour = searchParams.ExcludeVideoTour,
-                ExcludeAmenities = searchParams.ExcludeAmenities,
-                ExcludePromotions = searchParams.ExcludePromotions,
-                ExcludeEvents = searchParams.ExcludeEvents,
-                ExcludeAgents = searchParams.ExcludeAgents,
-                ExcludeNonPdfBrochure = searchParams.ExcludeNonPdfBrochure,
-                ExcludeUtilities = searchParams.ExcludeUtilities,
-                ExcludeFeesAndTaxes = searchParams.ExcludeFeesAndTaxes,
-                ExcludeFacetsOnly = searchParams.ExcludeFacetsOnly,
-                CustomBuilderLocations = searchParams.CustomBuilderLocations
-            };
-
-            switch (searchParams.WebApiSearchType)
-            {
-                case WebApiSearchType.Exact:
-                    if (!string.IsNullOrEmpty(searchParams.City))
-                        @params.City = searchParams.City;
-                    else if (!string.IsNullOrEmpty(searchParams.County))
-                        @params.County = searchParams.County;
-                    else if (!string.IsNullOrEmpty(searchParams.PostalCode))
-                        @params.PostalCode = searchParams.PostalCode;
-                    else if (searchParams.Cities != null && searchParams.Cities.Any(p => !string.IsNullOrEmpty(p)))
-                        @params.Cities = searchParams.Cities;
-                    else if (searchParams.Counties != null && searchParams.Counties.Any(p => !string.IsNullOrEmpty(p)))
-                        @params.Counties = searchParams.Counties;
-                    else if (searchParams.PostalCodes != null &&
-                             searchParams.PostalCodes.Any(p => !string.IsNullOrEmpty(p)))
-                        @params.PostalCodes = searchParams.PostalCodes;
-                    else if (searchParams.Markets != null && searchParams.Markets.Any(p => p > 0))
-                        @params.Markets = searchParams.Markets;
-                    else if (searchParams.MarketId > 0)
-                        @params.MarketId = searchParams.MarketId;
-                    if (!string.IsNullOrEmpty(searchParams.MarketName))
-                        @params.MarketName = searchParams.MarketName;
-
-                    if (!string.IsNullOrEmpty(searchParams.State))
-                        @params.State = searchParams.State;
-                    if (!string.IsNullOrEmpty(searchParams.StateName))
-                        @params.StateName = searchParams.StateName;
-
-                    break;
-                case WebApiSearchType.Radius:
-                    if (searchParams.OriginLat != 0)
-                        @params.OriginLat = searchParams.OriginLat;
-                    if (searchParams.OriginLng != 0)
-                        @params.OriginLng = searchParams.OriginLng;
-                    if (searchParams.Radius > 0)
-                        @params.Radius = searchParams.Radius;
-                    break;
-                case WebApiSearchType.Polygon:
-                case WebApiSearchType.Map:
-                    if (searchParams.MinLat != 0)
-                        @params.MinLat = searchParams.MinLat;
-                    if (searchParams.MinLng != 0)
-                        @params.MinLng = searchParams.MinLng;
-                    if (searchParams.MaxLat != 0)
-                        @params.MaxLat = searchParams.MaxLat;
-                    if (searchParams.MaxLng != 0)
-                        @params.MaxLng = searchParams.MaxLng;
-
-                    if (searchParams.WebApiSearchType == WebApiSearchType.Polygon)
-                    {
-                        @params.ApiGeographyPolygonIntersects = searchParams.ApiGeographyPolygonIntersects;
-                    }
-
-                    break;
-            }
-
-            #region Promos
-
-            if (searchParams.Promo)
-            {
-                @params.Promo = searchParams.Promo;
-            }
-            else
-            {
-                if (searchParams.ConsumerPromo)
-                    @params.ConsumerPromo = searchParams.ConsumerPromo;
-                else if (searchParams.AgentPromo)
-                    @params.AgentPromo = searchParams.AgentPromo;
-            }
-
-            #endregion
-
-            if (searchParams.SortBy == SortBy.Random)
-            {
-                if (!string.IsNullOrWhiteSpace(searchParams.City))
-                    @params.SortBy = SortBy.City;
-                else if (!string.IsNullOrWhiteSpace(searchParams.County))
-                    @params.SortBy = SortBy.County;
-                else if (!string.IsNullOrWhiteSpace(searchParams.PostalCode))
-                    @params.SortBy = SortBy.PostalCode;
-                else
-                    @params.SortBy = SortBy.Random;
-
-                if (!string.IsNullOrEmpty(searchParams.SortFirstBy) &&
-                    !string.IsNullOrEmpty(searchParams.City) ||
-                    !string.IsNullOrEmpty(searchParams.County) ||
-                    !string.IsNullOrEmpty(searchParams.PostalCode))
-                {
-                    @params.SortFirstBy = searchParams.SortFirstBy;
-                    @params.SortSecondBy = SortSecondBy.Random;
-                }
-            }
-            else
-                @params.SortBy = searchParams.SortBy;
-
-            if (searchParams.SortOrder && searchParams.SortBy != SortBy.Random)
-                @params.SortOrder = searchParams.SortOrder;
-
-            if (searchParams.PlanIdsSort != null && searchParams.PlanIdsSort.Any(p => p > 0))
-                @params.PlanIdsSort = searchParams.PlanIdsSort;
-
-            if (searchParams.SpecIdsSort != null && searchParams.SpecIdsSort.Any(p => p > 0))
-                @params.SpecIdsSort = searchParams.SpecIdsSort;
-
-            if (searchParams.CommIdsSort != null && searchParams.CommIdsSort.Any(p => p > 0))
-                @params.CommIdsSort = searchParams.CommIdsSort;
-
-            if (searchParams.Comms != null && searchParams.Comms.Any(p => p > 0))
-                @params.Comms = searchParams.Comms;
-
-            if (searchParams.Builders != null && searchParams.Builders.Any(p => p > 0))
-                @params.Builders = searchParams.Builders;
-
-            if (searchParams.Brands != null && searchParams.Brands.Any(p => p > 0))
-                @params.Brands = searchParams.Brands;
-
-            if (searchParams.SingleFamily)
-                @params.SingleFamily = searchParams.SingleFamily;
-            else if (searchParams.MultiFamily)
-                @params.MultiFamily = searchParams.MultiFamily;
-
-            if (searchParams.CommStatusList.Count > 0 && string.IsNullOrEmpty(searchParams.CommunityStatus))
-            {
-                var comStatuses = String.Join(",", searchParams.CommStatusList);
-                @params.CommunityStatus = comStatuses;
-            }
-
-            if (searchParams.NoBoyl)
-                @params.NoBoyl = searchParams.NoBoyl;
-
-            if (searchParams.LastCached)
-                @params.LastCached = searchParams.LastCached;
-
-            if (searchParams.Event)
-            {
-                @params.Event = searchParams.Event;
-            }
-
-            return @params;
         }
 
         public static SearchParams CleanForSave(this SearchParams searchParams)

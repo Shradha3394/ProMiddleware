@@ -1,7 +1,7 @@
-﻿using Bdx.Web.Api.Objects;
-using Pro.Api.Model.Concrete;
+﻿using Pro.Api.Model.Concrete;
 using Newtonsoft.Json;
 using Pro.Api.Model.Constants;
+using Pro.Api.Model;
 
 namespace Pro.Web.Api.Library.Business
 {
